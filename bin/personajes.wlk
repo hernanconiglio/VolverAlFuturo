@@ -9,78 +9,44 @@ class Personaje{
  	method esMayor(){
  		return edad > 50
  	}
- 	method tiene(elemento){
- 		return elementos.contains(elemento)
- 	}
- 	method tieneElementoPropio(){
- 		return elementos.any{e => e.esDe(self)}
- 	}
- 	method cambiarAltura(cant){
- 		altura += cant
- 	}
- 	method cambiarEdad(cant){
- 		edad += cant	
- 	}
- 	method elementoMasAntiguo(){
- 		return elementos.min{e => e.fecha()}
- 	}
- 	method perderLoMasAntiguo(){
- 		elementos.remove{self.elementoMasAntiguo()}
- 	}
 
- 	method noTieneElementos(){
- 		return elementos.isEmpty()
+ 	method tieneElementoPropio(){ return
+ 		elementos.any({e => e.esPropio(self)})
  	}
  
  	method esAntepesadoDe(alguien){
- 		return apellido == alguien.apellido() && alguien.esMayor()
+ 		// hacer
  	}
  	method problemaCon(unPersonaje,unaFecha){
- 		elementos.filter{e => e.esMasReciente(unaFecha)}.forEach{e => e.problemaCon(unPersonaje)}
+ 		// hacer
  	}
- }
- 
-class Destino{
- 	const personajes = []
- 	method antepasadosDe(unPersonaje){
- 		return personajes.filter{personaje => personaje.esAntepesadoDe(unPersonaje)}
- 	}
- }
- 
-
- class Elemento{
- 	var descripcion
- 	var property fecha
  	
- 	method esDe(alguien) = false
+ 	method reducirAltura(unValor) {altura -= unValor}
+ 	method envejecer(unValor) {edad += unValor}
+ 	method rejuvenecer(unValor) {edad -= unValor}
+ 	method noTieneElementos() = elementos.isEmpty()
+ 	method perderElementoMasAntiguo() = elementos.remove(self.elementoMasAntiguo())
+ 	method elementoMasAntiguo() = elementos.min({e => e.fecha()})
  	
- 	method esMasReciente(unaFecha){
- 		return fecha < unaFecha
- 	}
- 	method problemaCon(alguien){
- 		descripcion = "BTTF " + descripcion
- 	}
  }
  
- class Documentacion inherits Elemento{
- 	var personajes
- 
- 	override method esDe(alguien){
- 		return personajes.contains(alguien)
- 	}
- 	override method problemaCon(alguien){
- 		super(alguien)
- 		if(self.esDe(alguien))
- 			personajes.remove(alguien)
- 	}
- }
- 
- class Especial inherits Elemento{
- 	var duenio
- 
- 	override method esDe(alguien){
- 		return duenio == alguien
- 	}
- }
+class Elemento {
+	const descripcion 
+	const property fecha
+	
+	method esPropio(unPersonaje) {}
+} 
 
+class Documentacion inherits Elemento {
+	var property personaje
+	
+	method esPropio(unPersonaje) = personaje == unPersonaje
+}
 
+class Anacronicos inherits Documentacion {
+	var duenio
+	
+	method esPropio(unPersonaje) = duenio == unPersonaje
+	}
+	
+	

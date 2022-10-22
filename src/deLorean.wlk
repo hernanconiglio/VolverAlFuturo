@@ -3,8 +3,8 @@ import personajes.*
 class ExceptionSinElementos inherits Exception {}
  
 object deLorean{
- 	var property combustible = nafta
- 	const pasajeros = [] 
+ 	var property combustible = plutonio
+ 	const pasajeros = #{}
 
  	method subirPasajero(pasajero){
  		pasajeros.add(pasajero)
@@ -13,36 +13,35 @@ object deLorean{
  		pasajeros.remove(pasajero)
  	}
  	method viajarA(unDestino,unaFecha){
- 		pasajeros.forEach{pasajero => combustible.efecto(pasajero)}
+ 		pasajeros.forEach({p => combustible.efectoSecundario(p)})
  	}
  	method huboUnProblemaCon(unPersonaje,unaFecha){
- 		pasajeros.forEach{pasajero => pasajero.problemaCon(unPersonaje,unaFecha)}
+ 		// hacer
  	}
  }
  
 
-object radiactividad {
- 	method efecto(persona){
- 		persona.cambiarAltura(-1)
- 	}
- }
- 
-object nafta{
- 	method efecto(persona){
- 		persona.cambiarEdad( if(persona.esMayor()) -10 else 5)
- 	}
- }
- 
-object electricidad{
- 	method efecto(persona){
- 		if(persona.noTieneElementos()) 
- 			throw new ExceptionSinElementos()
- 		persona.perderLoMasAntiguo()
- 	}
- }
- 
-object basura{
- 	method efecto(persona){
- 		// no hace nada
- 	}
- }
+object plutonio  {
+	method efectoSecundario(unPersonaje) {
+		unPersonaje.reducirAltura(1)	}
+}
+
+object nafta  {
+	method efectoSecundario(unPersonaje) {
+		if(unPersonaje.esMayor()) unPersonaje.rejuvenecer(10)
+		else unPersonaje.envejecer(5)
+	}
+}
+
+object electricidad  {
+	method efectoSecundario(unPersonaje) {
+		if(unPersonaje.noTieneElementos()) self.error("el personaje no tiene elementos")
+		unPersonaje.perderElementoMasAntiguo()
+	}
+}
+object basura  {
+	method efectoSecundario(unPersonaje) {
+		// a pensar
+		
+	}
+}
