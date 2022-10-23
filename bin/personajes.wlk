@@ -4,7 +4,7 @@ class Personaje{
  	var property edad
  	var property altura 
  	var property apellido
- 	var elementos = []
+ 	const elementos = []
  	
  	method esMayor(){
  		return edad > 50
@@ -34,19 +34,19 @@ class Elemento {
 	const descripcion 
 	const property fecha
 	
-	method esPropio(unPersonaje) {}
+	method esPropio(unPersonaje) = false
 } 
 
 class Documentacion inherits Elemento {
 	var property personaje
 	
-	method esPropio(unPersonaje) = personaje == unPersonaje
+	override method esPropio(unPersonaje) = personaje == unPersonaje
 }
 
 class Anacronicos inherits Documentacion {
 	var duenio
 	
-	method esPropio(unPersonaje) = duenio == unPersonaje
+	override method esPropio(unPersonaje) = duenio == unPersonaje
 	}
 	
 	
